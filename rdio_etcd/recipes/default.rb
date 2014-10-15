@@ -7,5 +7,5 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe 'etcd-cookbook::default'
-include_recipe 'etcd-cookbook::cluster'
+include_recipe 'etcd::default'
+include_recipe 'etcd::cluster'
