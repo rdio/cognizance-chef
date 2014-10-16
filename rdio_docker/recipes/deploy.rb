@@ -44,15 +44,19 @@ node[:deploy].each do |application, deploy|
   end
 
   dockerenvs = " "
+  dockerports = " "
   deploy[:environment_variables].each do |key, value|
     dockerenvs=dockerenvs+" -e "+key+"="+value
+    if key.end_with?('port')
+      dockerports=docker_ports+" -p " + node[:opsworks][:instance][:private_ip] + ":" + value
+    end
   end
 
   bash "docker-run" do
     user "root"
     cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
-      docker run #{dockerenvs} -p #{node[:opsworks][:instance][:private_ip]}:#{deploy[:environment_variables][:service_port]}:#{deploy[:environment_variables][:container_port]} --name #{deploy[:application]} -d #{deploy[:application]}
+      docker run #{dockerenvs} #{dockerports} --name #{deploy[:application]} -d #{deploy[:application]}
     EOH
   end
 
