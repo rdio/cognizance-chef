@@ -57,7 +57,7 @@ node[:deploy].each do |application, deploy|
     user "root"
     cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
-      docker run #{dockerenvs} #{dockerports} -addr #{node[:opsworks][:instance][:private_ip]}:4001 -peer-addr #{node[:opsworks][:instance][:private_ip]}:7001 --name #{deploy[:application]} -d #{deploy[:application]}
+      docker run #{dockerenvs} #{dockerports} -e ETCD_ADDR=#{node[:opsworks][:instance][:private_ip]}:4001 -e ETCD_PEER_ADDR=#{node[:opsworks][:instance][:private_ip]}:7001 --name #{deploy[:application]} -d #{deploy[:application]}
     EOH
   end
 
