@@ -31,6 +31,7 @@ node[:deploy].each do |application, deploy|
       if docker images | grep #{deploy[:application]}; 
       then
         docker rmi #{deploy[:application]}
+	sleep 5
       fi
     EOH
   end
@@ -56,7 +57,7 @@ node[:deploy].each do |application, deploy|
     user "root"
     cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
-      docker run #{dockerenvs} #{dockerports} --name #{deploy[:application]} -d #{deploy[:application]}
+      docker run #{dockerenvs} #{dockerports} -addr #{node[:opsworks][:instance][:private_ip]}:4001 -peer-addr #{node[:opsworks][:instance][:private_ip]}:7001 --name #{deploy[:application]} -d #{deploy[:application]}
     EOH
   end
 
