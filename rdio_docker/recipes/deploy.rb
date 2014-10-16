@@ -48,7 +48,7 @@ node[:deploy].each do |application, deploy|
   deploy[:environment_variables].each do |key, value|
     dockerenvs=dockerenvs+" -e "+key+"="+value
     if key.end_with?('port')
-      dockerports=docker_ports+" -p " + node[:opsworks][:instance][:private_ip] + ":" + value
+      dockerports=dockerports+" -p " + node[:opsworks][:instance][:private_ip] + ":" + value
     end
   end
 
