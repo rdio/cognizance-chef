@@ -21,7 +21,7 @@ node[:deploy].each do |application, deploy|
   bash "docker-cleanup" do
     user "root"
     code <<-EOH
-      if docker ps | grep #{deploy[:application]}; 
+      if docker ps -a | grep #{deploy[:application]}; 
       then
         docker stop #{deploy[:application]}
         sleep 3
