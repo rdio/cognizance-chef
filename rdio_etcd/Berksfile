@@ -1,6 +1,0 @@
-# source "https://supermarket.getchef.com"
-source 'https://api.berkshelf.com'
-
-cookbook 'etcd', git: 'https://github.com/rdio/etcd-cookbook.git'
-
-metadata
